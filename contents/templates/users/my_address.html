@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="conatiner">
+    <div class="alert alert-info mt-3 mx-3">
+        <h3 class=" d-flex justify-content-center">My Address Book</h3>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 my-2 mx-3">
+            {% include 'users/sidebar.html' %}
+            <div class="card shadow border-secondary my-2" data-bs-toggle="tooltip" data-bs-placement="top"
+                data-bs-custom-class="custom-tooltip" data-bs-title="Add Address">
+                <div class="card-body text-center">
+                    <a href="{% url 'add_address'  %}"> <button class="btn btn-warning" style="border-radius:100px">
+                            <i class="fa fa-add text-light"></i></button></a>
+                </div>
+                <div class="card-footer text-center">
+                    <small class="text-muted">Add Address</small>
+                </div>
+            </div>
+        </div>
+        {% for add in addbook %}
+        <div class="col my-2 mx-3">
+            <div class="card {% if add.address_status %}border-info {% endif %} address{{add.id}} address">
+                <div class="card-body">
+                    <p>{{add.address}}</p>
+                    {% if add.contact %}
+                    <p>{{add.contact}}</p>
+                    {% endif %}
+                </div>
+                {% if add.address_status %}
+                <div class="card-footer">
+                    <i class="fa fa-check-circle text-success check{{add.id}} check" style="text-align: center;"></i>
+                    <small class="text-primary mb-1 mx-1 check{{add.id}} check">Active Address</small>
+                  <a href="{% url 'update_address' add.id %}" ><i class="fa fa-edit text-info" style="float:right" data-bs-toggle="tooltip" data-bs-placement="top"
+                    data-bs-custom-class="custom-tooltip"  data-bs-title="Update Address"></i></a>
+                    <button class="btn btn-primary activate_address btn{{add.id}} actbtn" type="submit"
+                        data-address="{{add.id}}" style="border-radius:100px; display:none;">Activate</button>
+                </div>
+                {% else %}
+                <div class="card-footer footer{{add.id}}">
+                    <i class="fa fa-check-circle text-success check{{add.id}} check" style="display:none; text-align:center"></i>
+                    <small class="text-primary mb-1 mx-1 check{{add.id}} check" style="display:none;">Active Address</small>
+                    <a href="{% url 'update_address' add.id %}" ><i class="fa fa-edit text-info" style="float:right" data-bs-toggle="tooltip" data-bs-placement="top"
+                        data-bs-custom-class="custom-tooltip"  data-bs-title="Update Address"></i></a>
+                    <button class="btn btn-primary activate_address btn{{add.id}} actbtn" type="submit"
+                        data-address="{{add.id}}" style="border-radius:100px;">Activate</button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

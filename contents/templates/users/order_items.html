@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="conatiner ">
+    <div class="alert alert-warning mt-3 mx-3">
+        <h3 class=" d-flex justify-content-center">My Orders Details</h3>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 my-2 mx-3">
+            {% include 'users/sidebar.html' %}
+        </div>
+        <div class="col my-2 mx-3">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="text-center">
+                        <tr>
+                            <th>Invoice No.</th>
+                            <th>Product</th>
+                            <th>Product Image</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in orders %}
+                        <tr class="text-center">
+                            <td>{{item.invoice_no}}</td>
+                            <td>{{item.item}}</td>
+                            <td><img src="/media/{{item.image}}"  height="100px" width="100px"></td>
+                            <td>{{item.qty}}</td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.total}}</td>
+                          </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+
+{% endblock %}

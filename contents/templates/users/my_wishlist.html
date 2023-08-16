@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="conatiner ">
+    <div class="alert alert-warning mt-3 mx-3">
+        <h3 class=" d-flex justify-content-center">My Wishlist <i class="fa fa-heart text-danger mt-1 mx-1"></i></h3>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 my-2 mx-3">
+            {% include 'users/sidebar.html' %}
+        </div>
+        <div class="col my-2 mx-3">
+            <div class="row">
+                {% for wl in wlist %}
+                <div class="col-sm-3">
+                    <div class="card shadow" style="width: 15rem;">
+                        <a class="edit_anchor_2" href="/single_product_detail/{{wl.product.id}}">
+                            <img src="/media/{{wl.product.images}}" class="card-img-top" alt=" {{wl.product.title}}">
+                            <div class="card-body">
+                                <hr>
+                                <h5 class="card-title text-center">{{wl.product.title}}</h5>
+                        </a>
+                        
+                        <a class="edit_anchor" href="/single_product_detail/{{wl.product.id}}">
+                            <div style="text-align: center;">View more</div></a>
+
+
+                        <!-- <hr>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <button class="btn btn-light shadow mb-2 update_item" data-item="{{product_id}}"><img
+                                        src="{% static 'images/shopping-cart.png' %}"> Add to cart</button>
+                            </li>
+
+                        </ul> -->
+
+                    </div>
+                </div>
+
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}

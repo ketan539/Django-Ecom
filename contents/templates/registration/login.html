@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} Login Page {% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container my-3 mx-3">
+    <div class="login_form shadow">
+            <h3 class="mb-3">Sign in</h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-1">
+                    <label class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" style="border-radius:1px;">
+
+                </div>
+                <div class="mb-1">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" style="border-radius:1px;">
+                </div>
+                <a href="{% url 'password_reset' %}"><small >Forgot Password?</small></a>
+                <button type="submit" class="btn btn-primary form-control mt-2 mb-2" style="border-radius:1px;">
+                    Login</button>
+                    <small>By continuing, you agree to Apni Dukaan Conditions of Use and Privacy Notice.</small>
+        </div>
+        </form>
+    </div>
+    <div class="container  my-3 mx-3">
+        <div class="login_form_2">
+            <hr>
+            <small class="text-muted">New tp Apni Dukaan?</small>
+            <a href="{% url 'signup' %}"><button type="submit" class="btn btn-secondary form-control mt-2 mb-2" style="border-radius:1px;">
+                Create your Apni Dukaan account</button></a>
+
+            </div>
+    </div>
+</body>
+
+</html>

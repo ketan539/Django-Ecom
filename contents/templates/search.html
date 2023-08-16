@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="conatiner">
+    <div class="row">
+        <div class="col-sm-2 my-3 mx-3">
+            <div class="alert alert-primary">
+                <h3 class=" d-flex justify-content-center">Filters</h3>
+            </div>
+            <ul class="list-group my-3">
+                <li class="list-group-item active fw-bold" aria-current="true">Categories</li>
+                {% for cat in cats %}
+                <form>
+                    <li class="list-group-item fw-bold">
+                        <div class="form-check"><input class="form-check-input" type="checkbox" data-filter="category"
+                                value="{{cat.category__id}}">{{cat.category__title}}</div>
+                    </li>
+                    {% endfor %}
+            </ul>
+            <ul class="list-group my-3">
+                <li class="list-group-item active fw-bold" aria-current="true">Brands</li>
+                {% for brand in brands %}
+                <li class="list-group-item fw-bold">
+                    <div class="form-check"><input class="form-check-input" type="checkbox" data-filter="brand"
+                            value="{{brand.brand__id}}">{{brand.brand__title}}</div>
+                </li>
+            </form>
+
+                {% endfor %}
+            </ul>
+            <ul class="list-group my-3">
+                <li class="list-group-item active fw-bold" aria-current="true">Colors</li>
+                {% for color in colors %}
+                <li class="list-group-item fw-bold"><div class="form-check"><input class="form-check-input" type="checkbox" data-filter="color"
+                    value="{{color.color__id}}">{{color.color__title}} <button class="btn"
+                        style="background-color: {{color.color__color_code}}; margin-bottom: 5px;"></button></div></li>
+
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col my-3 mx-3">
+            <div class="container">
+                <div class="alert alert-light" role="alert">
+                    <h2 class=" d-flex justify-content-left"><span class="text-muted">Search result for</span>&nbsp;<b>{{request.GET.q}}</b></h2>
+                </div>
+                <div class="row d-flex justify-content-center my-3" id="filteredProducts">
+                    {% if data %}
+                    {% for product in data %}
+                    <div class="col-sm-3 my-3 mx-2">
+                        <div class="card shadow" style="width: 15rem;">
+                            <a href="{% url 'single_product_detail' product.id %}"><img src="{{product.smartphone.images.url}}" class="card-img-top" alt="{{product.smartphone.model_name}}"></a>
+                            <div class="card-body">
+                                <h5 class="card-title">{{product.smartphone.model_name}}</h5>
+                                <hr>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"
+                                        style="background-color: rgb(145, 240, 240); border-radius:5px">
+                                        <h6>Effective Price: &#8377;{{product.price}}</h6>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

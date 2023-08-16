@@ -1,0 +1,24 @@
+{% load static %}
+
+
+<ul class="list-group text-center">
+    <a href="{% url 'dashboard' %}"
+        class="list-group-item {% if request.path == '/user/dashboard' %}active {% endif %} ">Dashboard <img
+            src="{% static 'images/gallery.png' %}"></a>
+    <a href="{% url 'edit_profile' %}"
+        class="list-group-item {% if request.path == '/user/edit_profile' %}active {% endif %} ">Edit Profile <i class="fa fa-edit text-dark"  ></i></a>
+    <a href="{% url 'my_orders' %}"
+        class="list-group-item  {% if request.path == '/user/my_orders' %}active {% endif %}">Orders <img
+            src="{% static 'images/product-delivery.png' %}"></a>
+    <a href="{% url 'my_wishlist' %}"
+        class="list-group-item {% if request.path == '/my_wishlist' %}active {% endif %}">Wishlist <i
+            class="fa fa-heart text-danger mx-1"></i></a>
+    <a href="{% url 'my_reviews' %}"
+        class="list-group-item {% if request.path == '/my_reviews' %}active {% endif %}">Reviews <img
+            src="{% static 'images/review.png' %}" class="mb-1 mx-1"> </a>
+    <a href="{% url 'my_address' %}"
+        class="list-group-item {% if request.path == '/my_address' %}active {% endif %}">Address <img
+            src="{% static 'images/address.png' %}" class="mb-1 mx-1"></a>
+    <a href="{% url 'logout' %}" onclick="return confirm('Do you want to Logout?')"
+        class=" text-danger list-group-item">Logout <img src="{% static 'images/shutdown.png' %}"></a>
+</ul>

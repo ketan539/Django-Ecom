@@ -1,0 +1,117 @@
+{% load static %}
+{% load humanize %}
+
+
+
+
+
+
+
+<div class="card shadow" id="cart_item">
+    <div class="row">
+        <div class="col mt-2">
+            <span style="font-size: 25px; font-weight:600" class="mt-2 mx-3">Shopping
+                Cart({{totalitems}})</span>
+        </div>
+        <div class="col text-end mt-3">
+            <span class="text-muted mx-3">Price</span>
+        </div>
+    </div>
+    <hr>
+    {% for product_id,item in cart_data.items %}
+    <div class="row">
+        <div class="col-md-4">
+            <a href="/single_product_detail/{{product_id}}"> <img src="/media/{{item.image}}"
+                    class="img-fluid rounded-start" alt="..."></a>
+            <!-- <h6 class="mx-4"><a class="edit_anchor" href="/single_product_detail/{{product_id}}">{{item.title}}</a></h6> -->
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <a class="edit_anchor_2" href="/single_product_detail/{{product_id}}">
+                            <span style="font-size: 18px; font-weight:600"
+                                class="card-title mt-4">{{item.title}}</span><br></a>
+                        <small style="color: rgb(0, 162, 0);">In stock</small><br>
+                        <small class="text-muted">Eligible for FREE Shipping</small><br>
+                        <img class="my-1" src="{% static 'images/amazon_fullfill.png' %}"><br>
+                        <div class="row mt-4">
+                            <div class="col">
+                                <div class="input-group shadow">
+                                    <div class="input-group-text" style="background-color:rgb(255, 204, 0);">
+                                        Qty:
+                                    </div>
+                                    <input type="number" class="form-control product_qty-{{product_id}}"
+                                        value="{{item.qty}}">
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary shadow btn-sm mt-1 update_item"
+                                    data-item="{{product_id}}"><img src="{% static 'images/captcha.png' %}"></button>
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-danger shadow btn-sm mt-1 delete_item"
+                                    data-item="{{product_id}}"><img src="{% static 'images/delete.png' %}"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col text-end">
+                        <span style="font-size: 20px; font-weight:600" class="card-title mt-4">
+                            &#8377;{{item.price|intcomma }}</span>
+                        <hr>
+                        <span style="font-size: 18px; font-weight:600" class="text-end">Total({{item.qty}}):
+                            &#8377;{% widthratio item.price 1 item.qty %}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+    <span style="font-size: 18px; font-weight:600" class="text-end mb-1 mx-3">Subtotal:
+        &#8377;{{total_amt |intcomma}}</span>
+</div>
+
+
+<!-- <div class="col my-3 mx-3">
+
+    <div class="card shadow">
+
+        <div class="card-body">
+            <small class="card-text" style="color: rgb(0, 162, 0);"><img src="{% static 'images/checked.png' %}"
+                    class="mb-1"> Your order is eligible for FREE Delivery.</small>
+            <small class="card-text text-muted"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select this option at checkout.<span
+                    style="color:rgb(0, 115, 255)"> Details</span></small><br>
+            <hr>
+            <h5 class="card-title">Subtotal({{totalitems}} items): &#8377;{{total_amt |intcomma}}</h5>
+            <p class="card-text"><input class="form-check-input" type="checkbox"> This order contains a gift</p>
+            <hr>
+            <div class="text-center">
+                <button class="btn"
+                    style="background-color:rgb(255, 204, 0);border-radius: 15px; font-size:15px; padding:10px 50px 10px 50px">
+                    Proceed to Checkout</button>
+            </div>
+            <hr>
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            EMI Available
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <small> Your order qualifies for EMI with valid credit cards (not available on purchase
+                                of Gold, Jewelry,
+                                Gift cards and Amazon pay balance top up).</small><small style="color:rgb(0, 115, 255)">
+                                Learn more</small>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div> -->

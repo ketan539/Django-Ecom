@@ -1,0 +1,28 @@
+{% load static %}
+<div class="col my-3 mx-3">
+        <div class="row d-flex justify-content-center my-3" id="filteredProducts">
+            {% if data %}
+            {% for product in data %}
+            <div class="col-sm-3 my-3 mx-2">
+                <div class="card shadow" style="width: 15rem;">
+                    <a href="{% url 'single_product_detail' product.id %}"><img
+                            src="{{product.product.images.url}}" class="card-img-top"
+                            alt="{{product.smartphone.model_name}}"></a>
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{product.smartphone.model_name}}</h5>
+                        <hr>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"
+                                style="background-color: rgb(145, 240, 240); border-radius:5px">
+                                <h6>Effective Price: &#8377;{{product.price}}</h6>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>

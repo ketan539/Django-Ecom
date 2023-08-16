@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<title>{% block title %}Checkout Page{% endblock %}</title>
+
+<div class="conatiner">
+    <div class="row">
+        <div class="col">
+            <div class="conatiner my-3 mx-5" style="width: 900px;">
+                <div class="card shadow" id="cart_item">
+                    <div class="row">
+                        <div class="col mt-2">
+                            <span style="font-size: 25px; font-weight:600" class="mt-2 mx-3">Payment</span>
+                        </div>
+                        <div class="col text-end mt-3">
+                            <span class="text-muted mx-3">Price</span>
+                        </div>
+                    </div>
+                    <hr>
+                    {% for product_id,item in cart_data.items %}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="/single_product_detail/{{product_id}}"> <img src="/media/{{item.image}}"
+                                    class="img-fluid rounded-start" alt="..."></a>
+                            <!-- <h6 class="mx-4"><a class="edit_anchor" href="/single_product_detail/{{product_id}}">{{item.title}}</a></h6> -->
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a class="edit_anchor_2" href="/single_product_detail/{{product_id}}">
+                                            <span style="font-size: 18px; font-weight:600"
+                                                class="card-title mt-4">{{item.title}}</span><br></a>
+                                        <small style="color: rgb(0, 162, 0);">In stock</small><br>
+                                        <small class="text-muted">Eligible for FREE Shipping</small><br>
+                                        <img class="my-1" src="{% static 'images/amazon_fullfill.png' %}"><br>
+                                        <div class="row mt-4">
+                                            <div class="col">
+                                                <div class="input-group shadow">
+                                                    <div class="input-group-text"
+                                                        style="background-color:rgb(255, 204, 0);">Qty:
+                                                    </div>
+                                                    <input style="background-color: #fff;" type="number" disabled
+                                                        class="form-control product_qty-{{product_id}}"
+                                                        value="{{item.qty}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col text-end">
+                                        <span style="font-size: 20px; font-weight:600" class="card-title mt-4">
+                                            &#8377;{{item.price|intcomma }}</span>
+                                        <hr>
+                                        <span style="font-size: 18px; font-weight:600"
+                                            class="text-end">Total({{item.qty}}):
+                                            &#8377;{% widthratio item.price 1 item.qty %}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endfor %}
+                    <span style="font-size: 18px; font-weight:600" class="text-end mb-1 mx-3">Subtotal:
+                        &#8377;{{total_amt |intcomma}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col my-3 mx-3">
+            {% if totalitems %}
+            <div class="card shadow">
+                <div class="card-body">
+                    <small class="card-text" style="color: rgb(0, 162, 0);"><img src="{% static 'images/checked.png' %}"
+                            class="mb-1"> Your order is eligible for FREE Delivery.</small>
+                    <small class="card-text text-muted"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select this option at
+                        checkout.<span style="color:rgb(0, 115, 255)"> Details</span></small><br>
+                    <hr>
+                    <h5 class="card-title">Subtotal({{totalitems}} items): &#8377;{{total_amt |intcomma}}</h5>
+                    <p class="card-text"><input class="form-check-input" type="checkbox"> This order contains a gift</p>
+                    <hr>
+                    <div class="text-center">
+                        {{form.render}}
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow my-2">
+                <div class="card-body">
+                    <span class="card-title fs-5 fw-semibold">Select a delivery address</span><hr>
+                    <div class="form-check">
+                        <span class="text-secondary"><b>RECENTLY USED</b></span><br>
+                        <b>{{request.user}}</b><br>
+                        <input class="form-check-input" type="radio"  checked>
+                        <p class="fw-semibold">{{select_address.address}}</p>
+                        <a href="{% url 'my_address'  %}" class="btn form-control" style="border-radius:5px; background-color:rgb(255, 204, 0);">Select different address</a>
+                        <a href="{% url 'add_address' %}" class="btn btn-light form-control mt-1 border-secondary "  style="border-radius:5px;">Add a New Address</a> 
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+</div>
+</div>
+</div>
+{% endblock %}

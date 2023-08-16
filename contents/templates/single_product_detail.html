@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<>
+    {% block content %}
+    <div class="container p-3 my-3 mx-3">
+        <div class="alert alert-info" role="alert">
+            <h2 class=" d-flex justify-content-center"> {{data.title}}</h2>
+        </div>
+
+        <div class="row d-flex justify-content-center my-3 mx-3">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img id="myimage" src="/media/{{data.images}}" class="img-fluid rounded-start" alt="...">
+                        <div id="myresult" class="img-zoom-result"></div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"> {{data.smartphone.title}}</h5>
+                            <hr>
+                            <h3 class="card-title"> &#8377;<span
+                                    class="product-price-{{data.id}} shadow p-1">{{data.productattribute_set.first.price}}</span>/-
+                            </h3>
+                            <hr>
+                            <div class="card my-2 border-0">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><b class="text-muted">Size:</b> 
+                                        {% for storage in storages %}
+                                        <button data-price="{{storage.price}}"
+                                            class="btn btn-outline-dark shadow btn-sm my-2 choose_size color{{storage.color__id}}">{{storage.smartphone_ram__title}}
+                                            RAM,
+                                            {{storage.smartphone_storage__title}} Storage</button>
+                                        {% endfor %}
+                                    </li>
+                                    <li class="list-group-item"><b>Color Options:</b>
+
+                                        <!-- {% for color in colors %}
+                                        <button class="btn my-2 shadow choose_color" data-color="{{color.color__id}}"
+                                            style="background-color:{{color.color__color_code}}; color:white">{{color.color__title}}</button>
+                                        {% endfor %} -->
+                                    </li>
+                                    <div class="row mt-3">
+                                        <div class="col">
+                                            <li class="list-group-item border-0">
+                                                <label class="form-label">Quantity:</label>
+                                                <input type="number" value="1"
+                                                    class="form-control product_qty-{{data.id}}">
+                                            </li>
+                                        </div>
+
+                                        <div class="col mt-4">
+                                            <li class="list-group-item border-0">
+
+                                                <input type="hidden" class="product_image-{{data.id}}"
+                                                    value="{{data.images}}">
+                                                <input type="hidden" class="product_id-{{data.id}}" value="{{data.id}}">
+                                                <input type="hidden" class="product_title-{{data.id}}"
+                                                    value="{{data.title}}">
+                                                <button class="btn btn-warning addcart_btn"data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title="Add to cart" data-index="{{data.id}}"
+                                                    style="border-radius: 30px;" type="button">
+                                                    <img src="{% static 'images/shopping-cart.png' %}"> Add to
+                                                    Cart</button>
+                                                    {% if user.is_authenticated %} 
+                                                    <button  class="btn  btn-light btn-lg shadow mb-2 add_wishlist" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-custom-class="custom-tooltip"
+                                                    data-bs-title="Add to wishlist" data-product="{{data.id}}"><i class="fa fa-heart text-danger"></i></button>
+                                                    {% else %}  
+                                                    <button class="btn  btn-light btn-lg shadow mb-2 add_wishlist"  data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-custom-class="custom-tooltip"
+                                                    data-bs-title="Login for wishlist" disabled data-product="{{data.id}}"><i class="fa fa-heart text-danger"></i></button>
+                                                    {% endif %}
+
+                                            </li>
+                                        </div>
+                                    </div>
+                                    <li class="list-group-item mt-5"><b>Brand:</b> {{data.smartphone.brand.title}}</li>
+                                    <li class="list-group-item"><b>Model Name:</b> {{data.smartphone.model_name}}</li>
+                                    <li class="list-group-item"><b>Screen Size:</b> {{data.smartphone.screen_size}}</li>
+                                    <li class="list-group-item"><b>Color:</b> {{data.smartphone.color.title}}</li>
+                                    <li class="list-group-item"><b>About this Item:</b>
+                                        {{data.smartphone.specification|safe}}</li>
+                                    <li class="list-group-item">
+                                        <h4>Customer reviews</h4>
+                                            <span class="fs-5">
+                                                {% if avg_rating.avg_rating %}
+                                            {% for star in avg_rating.avg_rating|ljust:avg_rating.avg_rating %}
+                                            <i class="fa fa-star text-warning"></i>
+                                            {% endfor %}
+                                            {% endif %}
+                                            <span class="avg_rating">{{avg_rating.avg_rating}}</span> out of 5 
+                                            </span>   
+
+                                            {% if user.is_authenticated %}
+                                            {% if canAdd %}
+                                            <button type="button" style="float:right;"
+                                                class="btn btn-warning mb-1 reviewBtn" data-bs-toggle="modal"
+                                                data-bs-target="#reviewbtn">Write a product
+                                                review</button>
+                                            {% endif %}
+                                            {% endif %}</li>
+
+
+                                    {% if user.is_authenticated %}
+                                    <div class="modal fade" id="reviewbtn" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <form method="post" id="addform" action="{% url 'save_review' data.id %}">
+                                            {% csrf_token %}
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Write a
+                                                            product review </h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <table class="table">
+                                                            {{form.as_table}}
+                                                        </table>
+                                                        <h5 id="ajaxRes"></h5>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                                        <input class="btn btn-dark" type="reset" value="Reset"
+                                                            id="reset">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    {% endif %}
+                                </ul>
+                                {% for review in reviews %}
+                                <div class="card review_list">
+                                    <div class="card-body"style="max-height:400px; overflow:auto;">
+                                        <blockquote class="blockquote text-right">
+                                            <footer class="blackquote-footer"style="float:right;">
+                                                <cite title="Source Title">
+                                                    {% for star in review.review_rating|ljust:review.review_rating %}
+                                                    <i class="fa fa-star text-warning"></i>
+                                                    {% endfor %}
+                                                    {{review.user}}
+                                                </cite>
+                                             <br>
+                                                <small class="text-muted" style="float:right;">{{review.review}}</small><br>
+                                               </footer>
+                                        </blockquote><br>
+                                   
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                          
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container p-5 my-1 mx-3">
+        <h4 style="color: #023266;">Products related to this Item</h4>
+        <span class="p-1" style="color: #fff;background-color:red; border-radius:2px">More from
+            {{data.smartphone.brand.title}}</span>
+        <div class="row">
+            {% for product in related_product %}
+            <div class="col-sm-3 my-3 mx-2">
+                <div class="card shadow" style="width: 15rem;">
+                    <a href="{% url 'single_product_detail' product.id %}"><img src="{{product.smartphone.images.url}}"
+                            class="card-img-top" alt="{{product.smartphone.model_name}}"></a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{product.smartphone.model_name}}</h5>
+                        <hr>
+                        <p>{{product.smartphone.title}}</p>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {{product_attribute.price}}
+        </div>
+    </div>
+    </body>
+    <script>
+        // Initiate zoom effect:
+        imageZoom("myimage", "myresult");
+    </script>
+
+    {% endblock %}

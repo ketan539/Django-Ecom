@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="conatiner">
+    <div class="alert alert-info mt-3 mx-3">
+        <h3 class=" d-flex justify-content-center">My Reviews</h3>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 my-2 mx-3">
+            {% include 'users/sidebar.html' %}
+        </div>
+        <div class="col my-2 mx-3">
+            <div class="table-responsive">
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Product image</th>
+                            <th>Review</th>
+                            <th>Review rating</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for review in reviews %}
+                        <tr>
+
+                            <td>{{review.product.title}}<br><br>
+                                <a class="edit_anchor_2" href="/single_product_detail/{{review.product.id}}"><small
+                                        class="text-muted"><img src="{% static 'images/tap.png' %}"> Go to this
+                                        product</small></a>
+                            </td>
+                            <td><img src="{{review.product.images.url}}" height='150' width="150"></td>
+                            <td>{{review.review}}</td>
+                            <td>{{review.review_rating}} out of 5</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+
+{% endblock %}

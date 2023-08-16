@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="conatiner">
+    <div class="row">
+        <div class="col-sm-2 my-3 mx-3">
+            <div class="alert alert-primary">
+                <h3 class=" d-flex justify-content-center">Filters</h3>
+            </div>
+            <ul class="list-group my-3">
+                <li class="list-group-item active fw-bold" aria-current="true">Categories</li>
+                {% for cat in cats %}
+                <li class="list-group-item fw-bold">{{cat.category__title}}</li>
+                {% endfor %}
+            </ul>
+            <ul class="list-group my-3">
+                <li class="list-group-item active fw-bold" aria-current="true">Brands</li>
+                {% for brand in brands %}
+                <li class="list-group-item fw-bold">{{brand.brand__title}}</li>
+                {% endfor %}
+            </ul>
+            <!-- <ul class="list-group my-3">
+                <li class="list-group-item active fw-bold" aria-current="true">Colors</li>
+                {% for color in colors %}
+                <li class="list-group-item fw-bold">{{color.color__title}} <button class="btn"
+                        style="background-color: {{color.color__color_code}}; margin-bottom: 5px;"></button></li>
+
+                {% endfor %}
+            </ul> -->
+        </div>
+        <div class="col my-3 mx-3">
+            <div class="container">
+                <div class="alert alert-warning" role="alert">
+                    <h2 class=" d-flex justify-content-center">Smartphone List</h2>
+                </div>
+                <span class="nav_text">Shop By >Categories >Smartphone List</span>
+                <div class="row d-flex justify-content-center my-3">
+                    {% if data %}
+                    {% for smartphone in data %}
+                    <div class="col-sm-3 my-3 mx-3">
+                        <div class="card shadow mx-3" style="width: 18rem;">
+                            <a href="{% url 'single_product_detail' smartphone.id %}"> <img
+                                    src="{{smartphone.images.url}}" class="card-img-top" alt="..."></a>
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the
+                                    bulk
+                                    of the
+                                    card's content.</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+
+            </div>
+            </div>
+            {% endblock %}

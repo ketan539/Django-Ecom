@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+            aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+            aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static 'images/Banner_1.jpg' %}" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>First slide label</h5>
+                <p>Some representative placeholder content for the first slide.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'images/Banner_2.jpg' %}" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5 style="color:black">Second slide label</h5>
+                <p style="color:black">Some representative placeholder content for the second slide.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'images/Banner_3.jpg' %}" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5 style="color:black">Third slide label</h5>
+                <p style="color:black">Some representative placeholder content for the third slide.</p>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<div class="row d-flex justify-content-center my-3">
+    <h2 class="text-center" style="color: #023266;">Featured Products</h2>
+    {% if data %}
+    {% for product in data %}
+    <div class="col-sm-auto mx-3 my-3">
+        <div class="card shadow mx-3" style="width: 18rem;">
+            <a href="{% url 'single_product_detail' product.id %}"> <img src="{{product.images.url}}"
+                    class="card-img-top" alt="..."></a>
+            <div class="card-body">
+                <h5 class="card-title">{{product.title}}</h5>
+                <hr>
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item my-1 shadow p-1"  style="background-color: rgb(145, 240, 240); border-radius:5px;">Effective price:<span class="product-price-{{product.id}} ">{{product.productattribute_set.first.price}}</span></li>
+                </ul>
+         
+                    <button class="btn btn-light shadow mb-2 addcart_btn"  data-index="{{product.id}}"><img
+                            src="{% static 'images/shopping-cart.png' %}"> Add to cart</button>
+                        {% if user.is_authenticated %} 
+                    <button  class="btn  btn-light shadow mb-2 add_wishlist" data-product="{{product.id}}"><i class="fa fa-heart text-danger"></i></button>
+                    {% else %}  
+                    <button class="btn  btn-light shadow mb-2 add_wishlist" disabled data-product="{{product.id}}"><i class="fa fa-heart text-danger"></i></button>
+                    {% endif %}
+                    <input type="hidden" class="product_image-{{product.id}}" value="{{product.images}}">
+                    <input type="hidden" class="product_id-{{product.id}}" value="{{product.id}}">
+                    <input type="hidden" class="product_title-{{product.id}}" value="{{product.title}}">
+                    <input type="hidden" value="1" class="product_qty-{{product.id}}">
+                
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+    <div class="d-flex justify-content-center my-3">
+        <a class='edit_anchor' href="{% url 'product_list' %}"><button class="btn my-color">View more
+                Products</button></a>
+    </div>
+    {% endif %}
+
+    {% endblock %}

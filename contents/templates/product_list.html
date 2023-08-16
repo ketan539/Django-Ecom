@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="conatiner">
+    <div class="row">
+        <div class="col-sm-2 my-3 mx-3">
+            <div class="alert alert-primary">
+                <h3 class=" d-flex justify-content-center">Filters</h3>
+            </div>
+            <ul class="list-group my-3">
+                <li class="list-group-item my-color fw-bold" aria-current="true">Categories</li>
+                {% for cat in cats %}
+
+                <li class="list-group-item fw-bold">
+                    <div class="form-check"><input class="form-check-input" type="checkbox" data-filter="category"
+                            value="{{cat.category__id}}">{{cat.category__title}}</div>
+                </li>
+                {% endfor %}
+            </ul>
+            <ul class="list-group my-3">
+                <li class="list-group-item my-color fw-bold" aria-current="true">Price Range</li>
+                <li class="list-group-item fw-bold">
+                    <input type="range" min="{{minmax_price.price__min}}" max="{{minmax_price.price__max}}"
+                        id="rangePrice" oninput="maxPrice.value=this.value"><br>
+                </li>
+                <li class="list-group-item fw-bold">
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="pricefilter_btn"><input
+                            value="{{minmax_price.price__max}}"
+                            style="background-color: rgb(145, 240, 240); border-radius:5px;  font-weight: bold;"
+                            class='form-control border-0' min="{{minmax_price.price__min}}"
+                            max="{{minmax_price.price__max}}" type="number" onkeyup="rangePrice.value=this.value"
+                            id=maxPrice></div>
+                    <small class="mt-1"> &#8377;{{minmax_price.price__min}} - &#8377;{{minmax_price.price__max}}</small>
+                    <!-- <button id="pricefilter_btn" type="submit" class="btn btn-success btn-sm">Filter</button> -->
+                </li>
+            </ul>
+            <ul class="list-group my-3">
+                <li class="list-group-item my-color fw-bold" aria-current="true">Brands</li>
+                {% for brand in brands %}
+                <li class="list-group-item fw-bold">
+                    <div class="form-check"><input class="form-check-input" type="checkbox" data-filter="brand"
+                            value="{{brand.brand__id}}">{{brand.brand__title}}</div>
+                </li>
+                </form>
+
+                {% endfor %}
+            </ul>
+            <ul class="list-group my-3">
+                <li class="list-group-item my-color fw-bold" aria-current="true">Colors</li>
+                {% for color in colors %}
+                <li class="list-group-item fw-bold">
+                    <div class="form-check"><input class="form-check-input" type="checkbox" data-filter="color"
+                            value="{{color.color__id}}">{{color.color__title}} <button class="btn"
+                            style="background-color: {{color.color__color_code}}; margin-bottom: 5px;"></button></div>
+                </li>
+
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col my-3 mx-3">
+            <div class="container">
+                <div class="alert alert-danger" role="alert">
+                    <h2 class=" d-flex justify-content-center">Product List</h2>
+                </div>
+                <div class="row d-flex justify-content-center my-3" id="filteredProducts">
+                    {% if data %}
+                    {% for product in data %}
+                    <div class="col-sm-3 my-3 mx-2 product-box">
+                        <div class="card shadow" style="width: 15rem;">
+                            <a href="{% url 'single_product_detail' product.id %}"><img
+                                    src="{{product.product.images.url}}" class="card-img-top"
+                                    alt="{{product.smartphone.model_name}}"></a>
+                            <div class="card-body">
+                                <h5 class="card-title text-center">{{product.smartphone.model_name}}</h5>
+                                <hr>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"
+                                        style="background-color: rgb(145, 240, 240); border-radius:5px">
+                                        <h6>Effective Price: &#8377;{{product.price}}</h6>
+
+                                    </li>
+                                    <li  class="list-group-item" >
+                                        <button class="btn btn-light shadow mb-2 update_item"
+                                            data-item="{{product_id}}"><img
+                                                src="{% static 'images/shopping-cart.png' %}"> Add to cart</button>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="container my-3 mx-3 text-center">
+            <button type="submit" id="loadmore" data-limit="3" data-total="{{total_data}}" class="btn btn-warning">Load
+                More <img src="{% static 'images/loading.png' %}" class="spinner"></button>
+        </div>
+    </div>
+</div>
+{% endblock %}
