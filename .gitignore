@@ -1,21 +1,32 @@
-*.db
-
-
-*.sqlite3
-
-
-/static/
-
-
-/media/
-
-
-.env
-
-
-.vscode/
-.idea/
-
-
+# Ignore Python virtual environment files
+venv/
 *.pyc
+
+# Ignore Django's migration files
+**/migrations/
+
+# Ignore local development settings (if you use separate settings for development)
+**/settings/local.py
+
+# Ignore database files (if you use SQLite as the database backend)
+db.sqlite3
+
+# Ignore secret keys and sensitive information
+*.secret_key
+*.env
+
+# Ignore any other temporary or build-related files
 __pycache__/
+*.py[cod]
+*.swp
+*.log
+*.DS_Store
+node_modules/
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+
+# Ignore media and static files (if you use a cloud storage service for these)
+media/
+static/
