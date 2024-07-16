@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-tww6=p#gh1ji9g9-17)9gocbf_j@#lb%+si%wqs4*k^w2#0yz=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.vercel.app']
 
 
 # Application definition
@@ -140,3 +140,13 @@ PAYPAL_TEST= True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND ='django.core.mail.backends.console.EmailBackend'
+
+
+# Static files (CSS, JavaScript, Images)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
